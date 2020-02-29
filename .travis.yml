@@ -16,13 +16,14 @@ install:
 before_script:
   - psql -c "CREATE USER nes WITH PASSWORD '2001fsnyc';" -U postgres
   - psql -c 'create database "deployment-exercise-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: pair-exer-deploy-sol
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: F5wmd96JZF7Di+DLMhlGRSxMzY6hXrv6Fr8jHHZidlbXVfcT/414mEp00IqFhHf0rht1NCn/VkcNE07uij+3QNO8ySBuPF/gc3arag2QHStMgx4UfkfTgyoShbFVDGM6qGSImj/PyuEC1RcsFmyr2G98cbJhCqze1yk+ytuHS6rC8ErLjHZtD+m5Nxz2jKnGb1dqaxurlby2OTlSXu2DXNgKHITa53qz8qQ1z8+SYbtS1B6LQTRDQYb7QKyx72WnZHJjsCSToDn2tpJ0A5EN6Si17OQYTXCZo95ir/3cabKQwGfG6L5qIQK1tzfw1p7Y7SlkK/JEQbTP855sCRgS8VEByF4ioRvSj0+71cs8mkB0i/+v+ORfgReQ0AT9QOxp2mhXABEh+EqjQ9cNtRgn7xtqq9a8xH1Vaf0tBRhHi34jBasWlVOIh4S3Oql35kLs4BP1kcR2wQYWslo8AVp5wZx9AeASXDRhDFcL2b0y2Ae9+JS5pTc8CB3pL5dMMSi3LHRSHO0u9/Fq8yjSFHcjNeHU1PhWrPiOwRdvIduUtwDW+i63aAOqPwdhhnvx/40MWdkEymR7o9UhneB3hfEkCKcy/yW8xxWy9PYhnUrS8KBmx/dQLaFLu6eSpsSUQ5JJxB/GbcMXtqK7PfIQixVMuj7T5You7rfYQbjiGhjtfio=
